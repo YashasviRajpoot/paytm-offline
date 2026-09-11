@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paytm - Official Offline Mesh UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="paytm-mobile-frame">
+    <div class="paytm-nav-header">
+        <div class="header-top-row">
+            <div class="user-profile-group">
+                <div class="user-avatar-circle">YR</div>
+                <div class="paytm-logo-text">Paytm</div>
+            </div>
+            <div class="header-action-icons">
+                <span>🛡️</span>
+                <span>⚙️</span>
+            </div>
+        </div>
+        <div class="paytm-search-box">
+            <span>🔍</span>
+            <input type="text" placeholder="Search services, merchants...">
+        </div>
+    </div>
+
+    <div class="mesh-active-banner">
+        <span><span class="pulsing-dot"></span> Offline Mesh Node Active</span>
+        <span>Node #402</span>
+    </div>
+
+    <div class="scrollable-body" id="homeContent">
+        <div class="paytm-balance-card">
+            <div>
+                <h4>Mesh Wallet & Bank Balance</h4>
+                <h2>₹ <span id="displayedBalance">5,000.00</span></h2>
+            </div>
+            <button class="link-bank-pill" onclick="openBankPopup()">Link Bank</button>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="dashboard-title">Transfer Money</div>
+            <div class="app-grid-4">
+                <div class="grid-icon-item" onclick="switchSection('scanSection')">
+                    <div class="icon-circle" style="background:#e0f7fa;">📷</div>
+                    <span>Scan & Pay</span>
+                </div>
+                <div class="grid-icon-item" onclick="switchSection('mobileSection')">
+                    <div class="icon-circle" style="background:#e8f4fd;">👤</div>
+                    <span>To Mobile</span>
+                </div>
+                <div class="grid-icon-item" onclick="switchSection('bankSection')">
+                    <div class="icon-circle" style="background:#fff3e0;">🏦</div>
+                    <span>To Bank</span>
+                </div>
+                <div class="grid-icon-item" onclick="switchSection('passbookSection')">
+                    <div class="icon-circle" style="background:#fce4ec;">📊</div>
+                    <span>Passbook</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="dashboard-title">Recharge & Bill Payments</div>
+            <div class="app-grid-4">
+                <div class="grid-icon-item" onclick="triggerUtilityAction('Mobile Recharge')">
+                    <div class="icon-circle" style="background:#e8f5e9;">📱</div>
+                    <span>Recharge</span>
+                </div>
+                <div class="grid-icon-item" onclick="triggerUtilityAction('Electricity Bill')">
+                    <div class="icon-circle" style="background:#fffde7;">⚡</div>
+                    <span>Electricity</span>
+                </div>
+                <div class="grid-icon-item" onclick="triggerUtilityAction('DTH Cable')">
+                    <div class="icon-circle" style="background:#f3e5f5;">📺</div>
+                    <span>DTH</span>
+                </div>
+                <div class="grid-icon-item" onclick="triggerUtilityAction('Fastag Recharge')">
+                    <div class="icon-circle" style="background:#e0f2f1;">🚗</div>
+                    <span>Fastag</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-panel" id="scanSection">
+            <h3 style="font-size:14px; color:#002970; margin-bottom:8px;">📷 Scan Merchant Mesh QR</h3>
+            <div style="background:#000; color:#0f0; padding:18px; border-radius:8px; font-family:monospace; font-size:11px; margin-bottom:10px;">
+                [ Scanning Mesh Beacon... ]<br>Connected: Sharma General Store
+            </div>
+            <input type="number" id="scanInputAmt" class="form-input-field" value="150" placeholder="Enter Amount">
+            <button class="primary-submit-btn" onclick="startPayment('Scan & Pay')">Pay via Mesh</button>
+        </div>
+
+        <div class="action-panel" id="mobileSection">
+            <h3 style="font-size:14px; color:#002970; margin-bottom:8px;">👤 Send to Mobile / UPI ID</h3>
+            <input type="text" class="form-input-field" value="9876543210@paytm" placeholder="Mobile / UPI">
+            <input type="number" id="mobileInputAmt" class="form-input-field" value="500" placeholder="Amount">
+            <button class="primary-submit-btn" onclick="startPayment('Mobile Transfer')">Transfer Offline</button>
+        </div>
+
+        <div class="action-panel" id="bankSection">
+            <h3 style="font-size:14px; color:#002970; margin-bottom:8px;">🏦 Transfer to Bank Account</h3>
+            <input type="text" class="form-input-field" value="3829010002938" placeholder="Account Number">
+            <input type="text" class="form-input-field" value="SBIN0001234" placeholder="IFSC Code">
+            <input type="number" id="bankInputAmt" class="form-input-field" value="1000" placeholder="Amount">
+            <button class="primary-submit-btn" onclick="startPayment('Bank Transfer')">Send Money</button>
+        </div>
+
+        <div class="action-panel" id="passbookSection">
+            <h3 style="font-size:14px; color:#002970; margin-bottom:8px;">📊 Mesh Passbook Ledger</h3>
+            <div id="passbookLogs" style="font-size:11px; color:#555;">
+                <p style="padding:6px 0; border-bottom:1px solid #eee;">✅ Paid ₹150 to Sharma Store (Mesh Relay) - <b>Success</b></p>
+                <p style="padding:6px 0; border-bottom:1px solid #eee;">✅ Added ₹2,000 from SBI A/c - <b>Success</b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-tab-menu">
+        <div class="tab-btn active" onclick="returnHome()">🏠 Home</div>
+        <div class="tab-btn" onclick="switchSection('scanSection')">📷 Scan</div>
+        <div class="tab-btn" onclick="switchSection('passbookSection')">📊 Passbook</div>
+        <div class="tab-btn" onclick="openBankPopup()">🏦 Bank</div>
+    </div>
+
+    <div class="fullscreen-modal" id="bankModalPopup">
+        <h2 style="color:#002970; margin-bottom:8px;">Link Bank Account</h2>
+        <p style="font-size:12px; color:#666; margin-bottom:15px;">Sync balances securely via local mesh nodes.</p>
+        <select class="form-input-field">
+            <option>State Bank of India (SBI) - 4092</option>
+            <option>HDFC Bank - 1189</option>
+            <option>Punjab National Bank - 7721</option>
+        </select>
+        <button class="primary-submit-btn" onclick="closeBankPopup()">Verify & Link</button>
+        <button style="background:none; border:none; color:#888; margin-top:12px; cursor:pointer;" onclick="closeBankPopup()">Cancel</button>
+    </div>
+
+    <div class="fullscreen-modal" id="pinModalPopup">
+        <h2 style="color:#002970; margin-bottom:5px;">Enter 4-Digit UPI PIN</h2>
+        <p style="font-size:11px; color:#666; margin-bottom:15px;">Secure Offline Mesh Routing</p>
+        <input type="password" maxlength="4" class="form-input-field" style="text-align:center; font-size:24px; letter-spacing:10px;" value="1234">
+        <button class="primary-submit-btn" onclick="completeTransaction()">Confirm & Pay</button>
+    </div>
+
+    <div class="fullscreen-modal" id="successModalPopup">
+        <div style="font-size:50px; color:#27ae60; margin-bottom:8px;">✅</div>
+        <h2 style="color: #27ae60; margin-bottom: 5px;">Payment Successful!</h2>
+        <p style="color: #666; font-size: 12px; margin-bottom: 15px;">Relayed securely via Bluetooth Mesh nodes without internet.</p>
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; width: 100%; margin-bottom: 15px; font-size: 11px; text-align: left;">
+            <p><b>Type:</b> <span id="finalType">Scan & Pay</span></p>
+            <p><b>Amount:</b> ₹<span id="finalAmt">150</span></p>
+            <p><b>Status:</b> Mesh Verified</p>
+        </div>
+        <button class="primary-submit-btn" onclick="returnHome()">Done</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
